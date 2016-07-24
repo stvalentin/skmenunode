@@ -1,0 +1,6 @@
+framework module skmenunode {
+  umbrella header "skmenunode-umbrella.h"
+
+  export *
+  module * { export * }
+}

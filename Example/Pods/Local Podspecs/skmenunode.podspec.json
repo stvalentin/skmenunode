@@ -1,0 +1,22 @@
+{
+  "name": "skmenunode",
+  "version": "0.1.0",
+  "summary": "A short description of skmenunode.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/skmenunode",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Stanciu Valentin": "maustudios@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/skmenunode.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "skmenunode/Classes/**/*"
+}
