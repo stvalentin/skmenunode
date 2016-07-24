@@ -1,0 +1,6 @@
+use_frameworks!
+target 'skmenunode_Tests' do
+  pod 'skmenunode', :path => '../'
+  
+  
+end
