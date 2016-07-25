@@ -1,6 +1,0 @@
-framework module Pods_skmenunode_Tests {
-  umbrella header "Pods-skmenunode_Tests-umbrella.h"
-
-  export *
-  module * { export * }
-}

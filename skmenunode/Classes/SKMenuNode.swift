@@ -14,7 +14,10 @@ protocol MenuNodeDelegate {
     func menuTargetTouched(index: Int)
 }
 
-class MenuNode: SKNode {
+public class SkMenuNode: MenuNode {
+}
+
+public class MenuNode: SKNode {
     
     var delegate: MenuNodeDelegate?
     
