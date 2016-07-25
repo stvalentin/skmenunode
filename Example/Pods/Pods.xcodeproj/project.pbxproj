@@ -14,6 +14,7 @@
 		7EF04FB6A58F5EDB0193671272769A11 /* skmenunode-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E7DF09A2DCE74EC6BE3BE6F56BDEF82 /* skmenunode-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A38BE58EE3FBB63B60E2F0FD9E7BF7B1 /* Pods-skmenunode_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2590F6A28134177853CF3BDF5D1F63D3 /* Pods-skmenunode_Tests-dummy.m */; };
 		FE861C6A1D45739E00941506 /* SKMenuNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE861C691D45739E00941506 /* SKMenuNode.swift */; };
+		FE861C6B1D4574FC00941506 /* SKMenuNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE861C691D45739E00941506 /* SKMenuNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -269,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE861C6B1D4574FC00941506 /* SKMenuNode.swift in Sources */,
 				574A01EAB690688A5109937DCC76867B /* skmenunode-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
