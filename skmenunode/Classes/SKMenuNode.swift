@@ -5,10 +5,9 @@
 //  Created by Stanciu Valentin on 25/07/16.
 //  Copyright © 2016 CocoaPods. All rights reserved.
 //
-
 import Foundation
-
 import SpriteKit
+
 
 public protocol MenuNodeDelegate  {
     //func menuTargetTouched(index: Int)
@@ -49,6 +48,8 @@ open class SKMenuNode: SKNode {
     var layoutType: SKMenuLayout;
     
     var section: String = "default";
+    
+    var _fontSize: Int = 28;
     
     fileprivate var _backgroundButton: UIColor = UIColor.blue;
     
@@ -117,7 +118,7 @@ open class SKMenuNode: SKNode {
         layer.fillColor = _backgroundButton;
         
         node.fontColor = UIColor.white;
-        node.fontSize = 28;
+        node.fontSize = CGFloat(_fontSize);
         node.text = item;
         node.color = UIColor.white
         //node.anchorPoint = CGPointMake(0.5, 0.5);
@@ -133,6 +134,32 @@ open class SKMenuNode: SKNode {
         self.addChild(layer);
         items.append(MenuItem(item: layer, callback: callback));
         return self;
+    }
+    
+    open func getContainer() -> SKSpriteNode
+    {
+        
+        let size = self.calculateAccumulatedFrame();
+        
+        let tempNode = SKSpriteNode(color: UIColor.clear,
+                                     size: CGSize(width: size.width, height: size.height));
+        
+        self.position = CGPoint(x: -1 * size.midX, y: -1 * size.midY);
+        
+        tempNode.addChild(self);
+        
+        tempNode.position  = CGPoint.zero; //CGPoint(x: -1 * size.midX, y: -1 * size.midY);
+        
+        tempNode.anchorPoint = CGPoint(x: 0, y: 1);
+        
+        return tempNode;
+        
+    }
+    
+    
+    open func setFontSize(size: Int)
+    {
+        self._fontSize = size;
     }
     
     
