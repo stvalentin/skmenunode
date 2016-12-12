@@ -7,7 +7,11 @@
 //
 import Foundation
 import SpriteKit
-
+#if os(watchOS)
+    import WatchKit
+    // <rdar://problem/26756207> SKColor typealias does not seem to be exposed on watchOS SpriteKit
+    typealias SKColor = UIColor
+#endif
 
 public protocol MenuNodeDelegate  {
     //func menuTargetTouched(index: Int)
@@ -83,22 +87,6 @@ open class SKMenuNode: SKNode {
     
     open func setPadding(_ padding: Int = 20) {
         self._padding = padding;
-    }
-    
-    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            //let touch:UITouch = touches.anyObject() as! UITouch
-            let touchLocation = touch.location(in: self)
-            for index in 0...items.count-1 {
-                if (items[index].item.calculateAccumulatedFrame().contains(touchLocation)) {
-                    if (items[index].callback != nil) {
-                        items[index].callback!();
-                    } else{
-                        delegate?.menuTargetTouched(index, section: section);
-                    }
-                }
-            }
-        }
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -260,6 +248,46 @@ open class SKMenuNode: SKNode {
         //
     }
 }
+
+
+#if os(watchOS)
+    extension SKMenuNode {
+        @available(watchOSApplicationExtension 3.0, *)
+        @IBAction func handleSingleTap(tapGesture: WKTapGestureRecognizer) {
+            let location = tapGesture.locationInObject()
+            
+            for index in 0...items.count-1 {
+                if (items[index].item.calculateAccumulatedFrame().contains(location)) {
+                    if (items[index].callback != nil) {
+                        items[index].callback!();
+                    } else{
+                        delegate?.menuTargetTouched(index, section: section);
+                    }
+                }
+            }
+        }
+    }
+#endif
+    
+#if os(iOS) || os(tvOS)
+    extension SKMenuNode {
+        override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            for touch in touches {
+                //let touch:UITouch = touches.anyObject() as! UITouch
+                let touchLocation = touch.location(in: self)
+                for index in 0...items.count-1 {
+                    if (items[index].item.calculateAccumulatedFrame().contains(touchLocation)) {
+                        if (items[index].callback != nil) {
+                            items[index].callback!();
+                        } else{
+                            delegate?.menuTargetTouched(index, section: section);
+                        }
+                    }
+                }
+            }
+        }
+    }
+#endif
 
 
 public enum SKMenuLayout {
