@@ -13,15 +13,14 @@ import SpriteKit
     typealias SKColor = UIColor
 #endif
 
-public protocol MenuNodeDelegate  {
+@objc public protocol MenuNodeDelegate  {
     //func menuTargetTouched(index: Int)
-    func menuTargetTouched(_ index: Int, section: String);
+    @objc optional func menuTargetTouched(_ index: Int, section: String);
 }
 
 open class SKMenuImage {
     
 }
-
 
 open class SKMenuPOP {
     
@@ -39,18 +38,18 @@ open class SKMenuNode: SKNode {
     
     var delegate: MenuNodeDelegate?
     
-    var _padding:Int = 50;
-    var xPos:Int = 0;
-    var yPos:Int = 0;
+    var padding: Int = 50;
+    var xPos: Int = 0;
+    var yPos: Int = 0;
     
     var defaultText: SKLabelNode?;
     
-    var items:Array<MenuItem>
+    var items: Array<MenuItem>
     
-    var actions:Array<AnyObject>
+    var actions: Array<AnyObject>
     
     var layoutType: SKMenuLayout;
-    
+
     var section: String = "default";
     
     var _fontSize: Int = 28;
@@ -83,16 +82,14 @@ open class SKMenuNode: SKNode {
     open func setLayout(_ layoutType: SKMenuLayout) {
         self.layoutType = layoutType;
     }
-    
-    
+
     open func setPadding(_ padding: Int = 20) {
-        self._padding = padding;
+        self.padding = padding;
     }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     @discardableResult
     open func addChainTarget(_ item: String, callback: callbackCompletion? = nil) -> AnyObject {
@@ -130,7 +127,7 @@ open class SKMenuNode: SKNode {
         let size = self.calculateAccumulatedFrame();
         
         let tempNode = SKSpriteNode(color: UIColor.clear,
-                                     size: CGSize(width: size.width, height: size.height));
+                                    size: CGSize(width: size.width, height: size.height));
         
         self.position = CGPoint(x: -1 * size.midX, y: -1 * size.midY);
         
@@ -144,15 +141,12 @@ open class SKMenuNode: SKNode {
         
     }
     
-    
-    open func setFontSize(size: Int)
-    {
+    open func setFontSize(size: Int) {
         self._fontSize = size;
     }
     
-    
     open func addTarget(_ item: String) {
-        let node:SKLabelNode = SKLabelNode(fontNamed: "HelveticaNeue");
+        let node: SKLabelNode = SKLabelNode(fontNamed: "HelveticaNeue");
         node.text = item
         node.fontSize = 28;
         node.position = self.getPosition(node);
@@ -177,12 +171,10 @@ open class SKMenuNode: SKNode {
             textNode.text = content;
         }
     }
-    
-    
+
     open func changeTargetContent(_ index: Int, content: String) {
         let node = items[index].item as! SKLabelNode;
         node.text = content;
-        
         /*
          let node = items[index] as! SKSpriteNode;
          node.enumerateChildNodesWithName("name") { (node, unsafePointer) in
@@ -191,14 +183,13 @@ open class SKMenuNode: SKNode {
          }
          */
     }
-    
-    
+
     /**
      * @TODO: Still al lot of pozitioning issues
      */
     func getPosition(_ node: SKNode) -> CGPoint {
         
-        let padd = self.items.count != 0 ? self._padding: 5;
+        let padd = self.items.count != 0 ? self.padding: 5;
         
         if (self.layoutType == .horizontal) {
             
@@ -220,42 +211,36 @@ open class SKMenuNode: SKNode {
         return CGPoint(x: xPos, y: yPos);
     }
     
-    func addText(_ item: String) {
+    open func addText(_ item: String) {
         defaultText  = SKLabelNode(fontNamed: "HelveticaNeue");
         defaultText?.text = item
         
         self.addChild(defaultText!);
         
         items.append(MenuItem(item: defaultText!, callback: nil));
-        defaultText?.position = CGPoint(x:0, y:xPos);
-        xPos = xPos - (Int(defaultText!.frame.height) + self._padding);
+        defaultText?.position = CGPoint(x: 0, y: xPos);
+        xPos -= (Int(defaultText!.frame.height) + self.padding);
     }
     
     func changeText(_ item: String) {
         defaultText?.text = item;
     }
     
-    
     func setPosition() {
-        
     }
-    
     func menuTargetTouched() {
         //
     }
-    
     func render() {
         //
     }
 }
-
 
 #if os(watchOS)
     extension SKMenuNode {
         @available(watchOSApplicationExtension 3.0, *)
         @IBAction func handleSingleTap(tapGesture: WKTapGestureRecognizer) {
             let location = tapGesture.locationInObject()
-            
             for index in 0...items.count-1 {
                 if (items[index].item.calculateAccumulatedFrame().contains(location)) {
                     if (items[index].callback != nil) {
@@ -268,7 +253,7 @@ open class SKMenuNode: SKNode {
         }
     }
 #endif
-    
+
 #if os(iOS) || os(tvOS)
     extension SKMenuNode {
         override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -280,7 +265,7 @@ open class SKMenuNode: SKNode {
                         if (items[index].callback != nil) {
                             items[index].callback!();
                         } else{
-                            delegate?.menuTargetTouched(index, section: section);
+                            delegate?.menuTargetTouched!(index, section: section);
                         }
                     }
                 }
@@ -293,3 +278,4 @@ open class SKMenuNode: SKNode {
 public enum SKMenuLayout {
     case horizontal, vertical;
 }
+
